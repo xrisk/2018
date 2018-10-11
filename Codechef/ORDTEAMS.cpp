@@ -2,28 +2,42 @@
 #include <vector>
 #include <algorithm>
 
-struct triple {
-	int a, b, c;
-	friend bool operator<(const triple &x, const triple &y) {
-		return x.a < y.a || x.b < y.b || x.c < y.c;
+using namespace std;
+
+
+
+
+bool cmp(vector<int> &v1, vector<int> &v2) {
+	for (int i = 0; i < 3; i++) {
+		if (v1[i] > v2[i]) return false;
 	}
-	friend bool operator==(triple &x, triple &y) {
-		return x.a == y.a && x.b == y.b && x.c == y.c;
+	for (int i = 0; i < 3; i++) {
+		if (v2[i] > v1[i]) return true;
 	}
-};
+	return false;
+}
 
 void solve() {
-	std::vector<triple> vec;
+	
+	vector<int> v[3];
 	for (int i = 0; i < 3; i++) {
-		int a, b, c; std::cin >> a >> b >> c;
-		vec.push_back(triple{a, b, c});
+		v[i].resize(3);
+		cin >> v[i][0] >> v[i][1] >> v[i][2];
 	}
-	std::sort(vec.begin(), vec.end());
-	for (int i = 0; i < 3; i++) {
-		std::cout << vec[i].a << " " << vec[i].b << " " << vec[i].c << "\n";
-	}
-	if (vec[0] == vec[1] || vec[1] == vec[2]) std::cout << "no\n";
-	else std::cout << "yes\n";
+
+	vector<int> cur_perm = {0, 1, 2};
+	do {
+		bool f = true;
+		for (int i = 0; i < 3 && f; i++) {
+			for (int j = 0; j < i; j++) {
+				if (!(cmp(v[cur_perm[j]], v[cur_perm[i]]))) { f = false; break; }
+			}
+		}
+		if (f) {
+			cout << "yes\n"; return;
+		}
+	} while (next_permutation(cur_perm.begin(), cur_perm.end()));
+	cout << "no\n";
 }
 
 int main() {

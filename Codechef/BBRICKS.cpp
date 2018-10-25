@@ -1,53 +1,63 @@
-// rishav.io
-
 #include <iostream>
-#include <vector>
-#include <string>
-#include <algorithm>
-#include <climits>
-#include <map>
-
-typedef long long LL;
-
-constexpr LL MOD = 1e9 + 7;
 
 using namespace std;
 
-map<pair<LL, LL> , LL > m;
+#define LL long long
+const int MOD = 1e9 + 7;
 
-LL dp(LL N, LL K) {
-	// cout << N << ' ' << K << '\n';
-	if (N <= 0) return 0;
-	if (K > N) return 0;
-	if (K == 1) return (2 * N);
-	if (N == 1) {
-		if (K == 0) return 1;
-		if (K == 1) return 2;
-		return 0;
+LL modpow(LL a, LL pow) {
+	LL res = 1;
+	while (pow) {
+		if (pow % 2 == 1)
+			res = (a * res) % MOD;
+		pow /= 2;
+		a = (a * a) % MOD;
 	}
-
-	if (m.find(make_pair(N, K)) != m.end()) {
-		return m[make_pair(N, K)];
-	}
-	m[make_pair(N, K)] = (dp(N - 2, K - 1) + dp(N - 1, K) + dp(N - 1, K - 1)) % MOD;
-	return m[make_pair(N, K)];
+	return res;
 }
 
-int main() {
+LL mmi(LL x) {
+	return modpow(x, MOD - 2);
+}
 
-	ios_base::sync_with_stdio(false);
-	cin.tie(0);
+LL ncr(LL n, LL r) {
+	if (r <r > n) return 0;
+	LL num = 1;
+	LL denom = 1;
+	LL x = n;
+	LL y = 1;
+	cout << n << " C " << r << " => ";
+	while (r--) 
+	{
+		num *= x--;
+		denom *= y++;
+		num = (num + MOD) % MOD;
+		denom = (denom + MOD) % MOD;
+	}
+	LL ret = (num * mmi(denom)) % MOD;
+	cout << ret << '\n';
+	return ret;
+}
+
+int main()
+{
 
 #ifdef __APPLE__
 	freopen("input.txt", "r", stdin);
 #endif
-
 	int T; cin >> T;
-	
-	for (int i = 1; i <= 10; i++) {
-		for (int j = 0; j <= i; j++)
-			cout << dp(i, j) << ' ';
-		cout << '\n';
-	}
+	while (T--)
+	{
+		LL n, k; cin >> n >> k;
+		LL sum = 0;
+		for (int r = 1; r <= k; r++) {
+			LL a = modpow(2, r);
 
+			a = (a * ncr(k - 1, r - 1)) % MOD;
+			a = (a * ncr(n - k + 1, r)) % MOD;
+			sum = (sum + a) % MOD;
+		}
+		cout << sum << '\n';
+	}
+	
 }

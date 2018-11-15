@@ -1,4 +1,5 @@
+a.out.dsym/
 a.out
-brute.py
 input.txt
-.DS_Store
+brute.py
+gen.py

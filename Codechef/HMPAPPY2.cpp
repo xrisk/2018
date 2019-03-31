@@ -13,7 +13,6 @@
 using namespace std;
 
 typedef long long LL;
-typedef pair<int, int> PII;
 
 int main() {
 
@@ -24,22 +23,16 @@ int main() {
 	freopen("input.txt", "r", stdin);
 #endif
 
-	int n, S; cin >> n >> S;
-	vector<PII> prices(n);
+	int T; cin >> T;
+	while (T--) {
+		LL N, A, B, K; cin >> N >> A >> B >> K;
+		LL ret = 0;
+		ret += N / A;
+		ret += N / B;
+		ret -= 2*(N / ((A * B) / __gcd(A, B)));
+		if (ret >= K) cout << "Win\n";
+		else		  cout << "Lose\n";
 
-	for (int i = 0; i < n; i++) {
-		int x; cin >> x;
-		prices[i] = {x, i + 1};
 	}
-
-	int lo = 0;
-	int hi = n + 1;
-
-	while (lo < hi) {
-		int mid = (lo + hi) / 2;
-		
-	}
-
-
 
 }

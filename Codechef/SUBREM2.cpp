@@ -1,16 +1,16 @@
 // rishav.io
 
-#include <iostream>
-#include <cmath>
-#include <vector>
 #include <algorithm>
-#include <set>
-#include <map>
-#include <cstdio>
-#include <string>
-#include <cstring>
 #include <climits>
+#include <cmath>
+#include <cstdio>
+#include <cstring>
+#include <iostream>
+#include <map>
+#include <set>
+#include <string>
 #include <utility>
+#include <vector>
 
 using namespace std;
 
@@ -25,67 +25,59 @@ vector<LL> vcost(NMAX);
 LL X;
 
 void dfs(int u) {
-	for (int v : adj[u]) {
-		if (v != parent[u]) {
-			parent[v] = u;
-			dfs(v);
-		}
-	}
+  for (int v : adj[u]) {
+    if (v != parent[u]) {
+      parent[v] = u;
+      dfs(v);
+    }
+  }
 }
 
-
 LL solve(int u) {
-	LL s = vcost[u];
-	for (int v : adj[u]) {
-		if (v != parent[u]) {
-			s += solve(v);
-		}
-	}
-	return max(s, -X);
+  LL s = vcost[u];
+  for (int v : adj[u]) {
+    if (v != parent[u]) {
+      s += solve(v);
+    }
+  }
+  return max(s, -X);
 }
 
 int main() {
-
-	ios_base::sync_with_stdio(false);
-	cin.tie(0);
+  ios_base::sync_with_stdio(false);
+  cin.tie(0);
 
 #ifdef __APPLE__
-	freopen("input.txt", "r", stdin);
+  freopen("input.txt", "r", stdin);
 #endif
 
-	int T; cin >> T;
-	while (T--) {
+  int T;
+  cin >> T;
+  while (T--) {
+    int N;
+    cin >> N >> X;
 
+    adj.clear();
+    adj.resize(N + 1);
 
-		int N;
-		cin >> N >> X;
+    fill(parent.begin(), parent.end(), 0);
+    fill(vcost.begin(), vcost.end(), 0LL);
+    // fill(dp.begin(), dp.end(), LLONG_MIN);
 
-		adj.clear();
-		adj.resize(N + 1);
+    for (int i = 0; i < N; i++) cin >> vcost[i];
 
-		fill(parent.begin(), parent.end(), 0);
-		fill(vcost.begin(), vcost.end(), 0LL);
-		// fill(dp.begin(), dp.end(), LLONG_MIN);
+    for (int i = 0; i < N - 1; i++) {
+      int u, v;
+      cin >> u >> v;
+      u--;
+      v--;
+      adj[u].push_back(v);
+      adj[v].push_back(u);
+    }
 
-		for (int i = 0; i < N; i++) 
-			cin >> vcost[i];
+    parent[0] = -1;
+    dfs(0);
 
-		for (int i = 0; i < N - 1; i++) {
-			int u, v; cin >> u >> v;
-			u--; v--;
-			adj[u].push_back(v);
-			adj[v].push_back(u);
-		}
-
-		parent[0] = -1;
-		dfs(0);
-
-		cout << solve(0) << '\n';
-
-
-
-	}
-
-
-	
+    cout << solve(0) << '\n';
+  }
 }

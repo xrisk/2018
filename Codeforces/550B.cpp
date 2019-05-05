@@ -1,104 +1,102 @@
 // rishav.io
 
-#include <iostream>
-#include <cmath>
-#include <vector>
 #include <algorithm>
-#include <set>
-#include <map>
-#include <cstdio>
-#include <string>
-#include <cstring>
 #include <climits>
-#include <utility>
+#include <cmath>
+#include <cstdio>
+#include <cstring>
+#include <iostream>
+#include <map>
 #include <queue>
+#include <set>
+#include <string>
+#include <utility>
+#include <vector>
 
 using namespace std;
 
 typedef long long LL;
 
 int main() {
-
 #ifdef __APPLE__
-	freopen("input.txt", "r", stdin);
+  freopen("input.txt", "r", stdin);
 #endif
 
-	int n; cin >> n;
-	vector<int> vec(n);
+  int n;
+  cin >> n;
+  vector<int> vec(n);
 
-	priority_queue<int> even;
-	priority_queue<int> odd;
-	for (int i = 0; i < n; i++) {
-		int x; cin >> x;
-		vec[i] = x;
-		if (x % 2 == 0) even.push(x);
-		else			odd.push(x);
-	}
-	
-	// first was even
+  priority_queue<int> even;
+  priority_queue<int> odd;
+  for (int i = 0; i < n; i++) {
+    int x;
+    cin >> x;
+    vec[i] = x;
+    if (x % 2 == 0)
+      even.push(x);
+    else
+      odd.push(x);
+  }
 
-	LL val = 0;
-	LL ret = INT_MAX;
-	while (true) {
-		if (even.size() == 0) {
-			break;
-		} else {
-			even.pop();
-		}
-		if (odd.size() == 0) {
-			break;
-		} else {
-			odd.pop();
-		}
-	}
+  // first was even
 
-	while (even.size() != 0) {
-		val += even.top();
-		even.pop();
-	}
-	while (odd.size() != 0) {
-		val += odd.top();
-		odd.pop();
-	}
+  LL val = 0;
+  LL ret = INT_MAX;
+  while (true) {
+    if (even.size() == 0) {
+      break;
+    } else {
+      even.pop();
+    }
+    if (odd.size() == 0) {
+      break;
+    } else {
+      odd.pop();
+    }
+  }
 
-	ret = min(ret, val);
+  while (even.size() != 0) {
+    val += even.top();
+    even.pop();
+  }
+  while (odd.size() != 0) {
+    val += odd.top();
+    odd.pop();
+  }
 
-	for (auto x : vec) {
-		if (x % 2 == 0) even.push(x);
-		else			odd.push(x);
-	}
+  ret = min(ret, val);
 
-	val = 0;
-	while (true) {
-		if (odd.size() == 0) {
-			break;
-		} else {
-			odd.pop();
-		}
-		if (even.size() == 0) {
-			break;
-		} else {
-			even.pop();
-		}
-	}
+  for (auto x : vec) {
+    if (x % 2 == 0)
+      even.push(x);
+    else
+      odd.push(x);
+  }
 
-		while (even.size() != 0) {
-		val += even.top();
-		even.pop();
-	}
-	while (odd.size() != 0) {
-		val += odd.top();
-		odd.pop();
-	}
+  val = 0;
+  while (true) {
+    if (odd.size() == 0) {
+      break;
+    } else {
+      odd.pop();
+    }
+    if (even.size() == 0) {
+      break;
+    } else {
+      even.pop();
+    }
+  }
 
-	ret = min(ret, val);
+  while (even.size() != 0) {
+    val += even.top();
+    even.pop();
+  }
+  while (odd.size() != 0) {
+    val += odd.top();
+    odd.pop();
+  }
 
-	cout << ret << '\n';
+  ret = min(ret, val);
 
-
-
+  cout << ret << '\n';
 }
-
-
-
-	
